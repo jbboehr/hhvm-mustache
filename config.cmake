@@ -1,4 +1,4 @@
-FIND_PATH(MUSTACHE_INCLUDE_DIR NAMES mustache.hpp PATHS /usr/include/mustache /usr/local/include/mustache)
+FIND_PATH(MUSTACHE_INCLUDE_DIR NAMES mustache/mustache.hpp PATHS /usr/include /usr/local/include)
 FIND_LIBRARY(MUSTACHE_LIBRARY NAMES mustache PATHS /lib /usr/lib /usr/local/lib)
 
 IF (MUSTACHE_INCLUDE_DIR AND MUSTACHE_LIBRARY)
