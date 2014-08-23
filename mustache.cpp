@@ -47,14 +47,8 @@ static void hhvm_array_to_mustache_array(const Variant& data, mustache::Data * n
         std::string ckey;
 		Array tmp = data.toArray();
 		ssize_t data_count = tmp.length();
+		size_t ArrayPos = 0;
 
-//
-//		    if (value.isString() || value.isInteger()) {
-//		      ret.setKeyUnconverted(value, iter.first());
-//		    } else {
-//		      raise_warning("Can only flip STRING and INTEGER values!");
-//		    }
-//		  }
 	  for (ArrayIter iter(tmp); iter; ++iter) {
 		    const Variant& key(iter.first());
 		  	const Variant& value(iter.secondRefPlus());
@@ -63,7 +57,6 @@ static void hhvm_array_to_mustache_array(const Variant& data, mustache::Data * n
 			if( key_type == KindOfInt64 ) {
 	            if( node->type == mustache::Data::TypeNone ) {
 	              node->init(mustache::Data::TypeArray, data_count);
-	              child = node->array;
 	            } else if( node->type != mustache::Data::TypeArray ) {
 	              printf("Mixed numeric and associative arrays are not supported");
 	              return; // EXIT
@@ -82,8 +75,8 @@ static void hhvm_array_to_mustache_array(const Variant& data, mustache::Data * n
 
 			// Store value
 			if( node->type == mustache::Data::TypeArray ) {
+				child = node->array[ArrayPos++] = new mustache::Data();
 				hhvm_array_to_mustache_array(value, child);
-				child++;
 			} else if( node->type == mustache::Data::TypeMap ) {
 				child = new mustache::Data;
 				hhvm_array_to_mustache_array(value, child);
